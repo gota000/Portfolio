@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aarush Gota — Portfolio</title>
+  <style>
+    /* ─── Reset & Base ─────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --accent:      #4c1d95;
+      --accent-dim:  #3b0764;
+      --bg-dark:     #ffffff;
+      --bg-card:     rgba(255, 255, 255, 0.92);
+      --text-main:   #12101a;
+      --text-muted:  #5c4d6e;
+      --border:      rgba(76, 29, 149, 0.30);
+      --font:        'Segoe UI', system-ui, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font);
+      overflow-x: hidden;
+    }
+
+    /* ─── Nav ──────────────────────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 3rem;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      transform: translateY(0);
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                  box-shadow 0.35s ease;
+    }
+
+    nav.nav-hidden {
+      transform: translateY(-110%);
+    }
+
+    nav.nav-scrolled {
+      box-shadow: 0 2px 20px rgba(76, 29, 149, 0.08);
+    }
+
+    nav .logo {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--text-main);
+    }
+
+    nav .logo span { color: var(--accent); }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 2.5rem;
+    }
+
+    nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      letter-spacing: 0.05em;
+      transition: color 0.25s;
+    }
+
+    nav a:hover { color: var(--accent); }
+
+    /* ─── Hero ─────────────────────────────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 0 5rem;
+      background: linear-gradient(135deg, #ffffff 60%, #ede9f8);
+      gap: 4rem;
+    }
+
+    .hero-text {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .hero-tag {
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.2rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 span { color: var(--accent); }
+
+    .hero p {
+      max-width: 520px;
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+    }
+
+    /* ── Hero photo ─────────────────────────────────────────────────── */
+    .hero-photo {
+      flex-shrink: 0;
+      width: clamp(240px, 28vw, 420px);
+      aspect-ratio: 3 / 4;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 8px 40px rgba(76, 29, 149, 0.15),
+                  0 2px 12px rgba(0,0,0,0.08);
+      border: 3px solid rgba(76, 29, 149, 0.18);
+    }
+
+    .hero-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top; /* ← adjust if your face is cropped */
+      display: block;
+    }
+
+    @media (max-width: 700px) {
+      .hero { flex-direction: column; padding: 6rem 2rem 3rem; gap: 2.5rem; }
+      .hero-photo { width: 60vw; aspect-ratio: 1; }
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.8rem 2.2rem;
+      border: 1.5px solid var(--accent);
+      color: var(--accent);
+      text-decoration: none;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      letter-spacing: 0.08em;
+      transition: background 0.25s, color 0.25s;
+    }
+
+    .btn:hover {
+      background: var(--accent);
+      color: #ffffff;
+    }
+
+    /* ──────────────────────────────────────────────────────────────────────
+       ROBOT HAND SECTION
+       ───────────────────────────────────────────────────────────────────── */
+
+    /*
+     * #rh-scroll-container is a tall wrapper the user scrolls through.
+     * Adjust SCROLL_HEIGHT_VH in the JS to control how long the scroll lasts.
+     * The inner section sticks to the top while scroll progress drives the video.
+     */
+    #rh-scroll-container {
+      /* Height set by JS via --rh-scroll-height custom property */
+      height: var(--rh-scroll-height, 400vh);
+    }
+
+    #robot-hand {
+      position: sticky;
+      top: 1rem;
+      height: calc(100vh - 2rem);
+      margin: 0 1rem;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 20px;
+    }
+
+    /* ── Background layer ──────────────────────────────────────────────── */
+    /*
+     * HOW TO ADD YOUR MEDIA:
+     *
+     *   VIDEO (scroll-scrubbed) ← RECOMMENDED for frame-by-frame scroll
+     *     1. Place your .mp4 in the same folder as index.html
+     *     2. Set #rh-bg-video { display: block; } below
+     *     3. Set #rh-bg-gif   { display: none;  } below
+     *     4. Replace "YOUR_VIDEO_FILENAME.mp4" in the <video> tag in HTML
+     *
+     *   GIF (static — GIFs cannot be frame-seeked by browsers)
+     *     1. Place your .gif in the same folder
+     *     2. Set #rh-bg-gif  { display: block; } below
+     *     3. Set #rh-bg-video { display: none;  } below
+     *     4. Replace "RobotHand.gif" in the url() below
+     *        The gif will display but won't scrub with scroll.
+    */
+
+    /* -- GIF background -------------------------------------------------- */
+    #rh-bg-gif {
+      display: none;           /* ← CHANGE to "block" if using a gif */
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('RobotHand.gif');   /* ← REPLACE with your gif filename */
+      background-size: cover;
+      background-position: center;
+    }
+
+    /* -- VIDEO background (scroll-scrubbed) ------------------------------ */
+    #rh-bg-video {
+      display: block;          /* ← CHANGE to "none" to use gif instead */
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 0%;  /* ← adjust % to shift crop: 0%=top, 50%=center, 100%=bottom */
+    }
+
+    /* Dark gradient overlay so UI stays readable */
+    #robot-hand::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(10,5,15,0.55) 0%,
+        rgba(10,5,15,0.20) 40%,
+        rgba(10,5,15,0.65) 100%
+      );
+      pointer-events: none;
+    }
+
+    /* ── Foreground content ────────────────────────────────────────────── */
+    .rh-content {
+      position: relative;
+      z-index: 2;
+      max-width: 520px;
+      padding: 2rem 2.5rem;
+      text-align: left;
+      margin-left: auto;   /* pushes the block to the right */
+      margin-right: 4vw;
+    }
+
+    .rh-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+
+    .rh-title {
+      display: inline-block;
+      font-size: clamp(1.4rem, 3vw, 2.2rem);
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 1.2rem;
+      color: #1a1008;
+      background: rgba(255, 255, 255, 0.90);
+      padding: 0.35rem 1rem;
+      border-radius: 6px;
+      backdrop-filter: blur(6px);
+    }
+
+    .rh-subtitle {
+      color: rgba(20, 10, 0, 0.75);
+      font-size: 1rem;
+      margin-bottom: 2.5rem;
+      text-shadow: 0 1px 8px rgba(0,0,0,0.8);
+    }
+
+    /* ── Collapsible description box ───────────────────────────────────── */
+    .rh-accordion {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+      text-align: left;
+    }
+
+    .rh-accordion-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.1rem 1.5rem;
+      background: none;
+      border: none;
+      color: var(--text-main);
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      font-family: var(--font);
+      letter-spacing: 0.02em;
+      transition: background 0.2s;
+    }
+
+    .rh-accordion-btn:hover { background: rgba(76, 29, 149, 0.07); }
+
+    .rh-accordion-btn .chevron {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      border-right: 2px solid var(--accent);
+      border-bottom: 2px solid var(--accent);
+      transform: rotate(45deg);
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      flex-shrink: 0;
+    }
+
+    .rh-accordion.open .rh-accordion-btn .chevron {
+      transform: rotate(-135deg);
+    }
+
+    .rh-accordion-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                  padding   0.4s ease;
+    }
+
+    .rh-accordion.open .rh-accordion-body {
+      max-height: 800px; /* large enough for any content */
+    }
+
+    .rh-accordion-inner {
+      padding: 0 1.5rem 1.5rem;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.8;
+    }
+
+    /*
+     * ════════════════════════════════════════════════════
+     *   EDIT YOUR PROJECT DESCRIPTION BELOW
+     *   Look for the <!-- DESCRIPTION --> comment in HTML
+     * ════════════════════════════════════════════════════
+     */
+
+    .rh-accordion-inner p + p { margin-top: 0.9rem; }
+
+    .rh-accordion-inner .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1.2rem;
+    }
+
+    .tag {
+      padding: 0.3rem 0.85rem;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
+      color: var(--accent);
+    }
+
+    /* ─── Footer spacer section ────────────────────────────────────────── */
+    .placeholder-section {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      font-size: 1rem;
+      letter-spacing: 0.05em;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ─── Image-based project sections ────────────────────────────────── */
+    .proj-section {
+      display: flex;
+      align-items: stretch;
+      margin: 1.5rem 1rem;
+      max-height: 67vh;            /* ← capped at 2/3 of the viewport */
+      box-shadow: 0 4px 32px rgba(76, 29, 149, 0.10);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+    }
+
+    /* Image column — 2/3 width */
+    .proj-image {
+      flex: 2;
+      min-width: 0;
+      min-height: 0;
+      position: relative;
+      overflow: hidden;
+      border-radius: 20px 0 0 20px; /* round left corners only */
+    }
+
+    .proj-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;  /* ← adjust per image */
+      display: block;
+    }
+
+    /* Content column — 1/3 width */
+    .proj-info {
+      flex: 1;
+      min-width: 280px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 2.5rem 2rem;
+      background: var(--bg-card);
+      backdrop-filter: blur(12px);
+      border-radius: 0 20px 20px 0; /* round right corners only */
+    }
+
+    .proj-title {
+      font-size: clamp(1.3rem, 2.5vw, 2rem);
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 1.4rem;
+      line-height: 1.2;
+    }
+
+    /* Accordion inside proj-info reuses .rh-accordion styles */
+
+    @media (max-width: 700px) {
+      .proj-section  { flex-direction: column; }
+      .proj-image    { min-height: 240px; flex: none; border-radius: 20px 20px 0 0; }
+      .proj-info     { min-width: 0; border-radius: 0 0 20px 20px; }
+    }
+
+    /* ─── Scrollbar ────────────────────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #eee9f5; }
+    ::-webkit-scrollbar-thumb { background: rgba(76,29,149,0.35); border-radius: 3px; }
+
+    /* ─── Section headers (Projects toggle) ─────────────────────────── */
+    .section-header {
+      padding: 4rem 3rem 2rem;
+      background: var(--bg-dark);
+      cursor: pointer;
+      user-select: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .section-header:hover h2 { color: var(--accent); }
+
+    .section-header h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 900;
+      color: var(--text-main);
+      letter-spacing: -0.01em;
+      transition: color 0.2s;
+    }
+
+    .section-header h2 span {
+      display: block;
+      width: 3rem;
+      height: 4px;
+      background: var(--accent);
+      border-radius: 2px;
+      margin-top: 0.6rem;
+    }
+
+    .section-header .sh-chevron {
+      display: inline-block;
+      width: 22px;
+      height: 22px;
+      border-right: 3px solid var(--accent);
+      border-bottom: 3px solid var(--accent);
+      transform: rotate(45deg);
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      flex-shrink: 0;
+      margin-bottom: 0.5rem;
+    }
+
+    .section-header.open .sh-chevron {
+      transform: rotate(-135deg);
+    }
+
+    /* Projects body — collapsed by default, expands on .open */
+    /* Uses the CSS grid trick so any height content animates smoothly */
+    #projects-body {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    #projects-body.open {
+      grid-template-rows: 1fr;
+    }
+
+    #projects-inner {
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Navigation ───────────────────────────────────────────────────── -->
+  <nav>
+    <div class="logo">Aarush <span>Gota</span></div>
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#robot-hand">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- ── Hero ─────────────────────────────────────────────────────────── -->
+  <section class="hero" id="home">
+    <div class="hero-text">
+      <p class="hero-tag"> Computer Engineer</p>
+      <h1>Hi, I'm<br /><span>Aarush Gota</span></h1>
+      <p>I am passionate about building hands-on engineering projects and motivated to solve real-world problems. In my free time, I enjoy playing ping pong, taking photos, working on projects, and folding origami.</p>
+      <a href="#robot-hand" class="btn">See My Work</a>
+    </div>
+
+    <!-- ── Photo: replace YOUR_PHOTO.jpg with your image filename ── -->
+    <div class="hero-photo">
+      <img src="Aarush Photo.JPG" alt="Aarush Gota" />  <!-- ← REPLACE -->
+    </div>
+  </section>
+
+  <!-- ── Projects header (click to expand/collapse) ───────────────────── -->
+  <div class="section-header" id="projects" role="button" aria-expanded="false" aria-controls="projects-body" tabindex="0">
+    <h2>Projects<span></span></h2>
+    <span class="sh-chevron" aria-hidden="true"></span>
+  </div>
+
+  <!-- Projects content — hidden until header is clicked ───────────── -->
+  <div id="projects-body" role="region">
+  <div id="projects-inner">
+
+  <!-- ══════════════════════════════════════════════════════════════════════
+       ROBOT HAND PROJECT SECTION
+       ══════════════════════════════════════════════════════════════════════ -->
+  <div id="rh-scroll-container">
+  <section id="robot-hand">
+
+    <!-- ── GIF background ──────────────────────────────────────────────── -->
+    <div id="rh-bg-gif"></div>
+
+    <!-- ── VIDEO background (scroll-scrubbed) ───────────────────────────
+         Replace YOUR_VIDEO_FILENAME.mp4 with your actual file.
+         Set display:block in CSS (#rh-bg-video) to activate.
+    -->
+    <video id="rh-bg-video" muted playsinline preload="auto">
+      <source src="RobotHand.mp4" type="video/mp4" />
+    </video>
+
+    <!-- ── Foreground ─────────────────────────────────────────────────── -->
+    <div class="rh-content">
+      <h2 class="rh-title">Robotic Hand</h2>
+
+      <!-- ── Collapsible description ──────────────────────────────────── -->
+      <div class="rh-accordion" id="rh-accordion">
+
+        <button class="rh-accordion-btn" aria-expanded="false" aria-controls="rh-body">
+          <span>About</span>
+          <span class="chevron" aria-hidden="true"></span>
+        </button>
+
+        <div class="rh-accordion-body" id="rh-body" role="region">
+          <div class="rh-accordion-inner">
+
+            <!-- ════════════════════════════════════════════════════════
+                 DESCRIPTION — edit the text between the <p> tags below
+                 ════════════════════════════════════════════════════════ -->
+            <p>
+              [ADD YOUR PROJECT DESCRIPTION HERE. Describe what the robot hand does, 
+              how it works, and what makes it interesting.]
+            </p>
+            <p>
+              [ADD MORE DETAILS HERE — e.g., technical challenges, materials used, 
+              how you built it, what you learned.]
+            </p>
+            <!-- ═══════════════════════════════════════════════════════ -->
+
+          </div>
+        </div>
+
+      </div><!-- /rh-accordion -->
+    </div><!-- /rh-content -->
+
+  </section>
+  </div><!-- /rh-scroll-container -->
+  <!-- ══ END ROBOT HAND SECTION ══════════════════════════════════════════ -->
+
+  <!-- ══════════════════════════════════════════════════════════════════════
+       PING PONG ROBOT SECTION
+       ══════════════════════════════════════════════════════════════════════ -->
+  <div class="proj-section" id="ping-pong-robot">
+
+    <!-- ── Image: replace YOUR_PINGPONG_IMAGE.jpg with your filename ── -->
+    <div class="proj-image">
+      <img src="PingPong.jpg" alt="Ping Pong Robot" />  <!-- ← REPLACE -->
+    </div>
+
+    <div class="proj-info">
+      <h2 class="proj-title">Ping Pong Robot</h2>
+
+      <div class="rh-accordion" id="pp-accordion">
+        <button class="rh-accordion-btn" aria-expanded="false" aria-controls="pp-body">
+          <span>About</span>
+          <span class="chevron" aria-hidden="true"></span>
+        </button>
+        <div class="rh-accordion-body" id="pp-body" role="region">
+          <div class="rh-accordion-inner">
+            <!-- ════════════════════════════════════════════════════════
+                 DESCRIPTION — edit the text between the <p> tags below
+                 ════════════════════════════════════════════════════════ -->
+            <p>
+              [ADD YOUR PING PONG ROBOT DESCRIPTION HERE.]
+            </p>
+            <p>
+              [ADD MORE DETAILS HERE.]
+            </p>
+            <!-- ═══════════════════════════════════════════════════════ -->
+            <div class="tag-row">
+              <span class="tag">Robotics</span>
+              <span class="tag">Computer Vision</span>
+              <span class="tag">Embedded Systems</span>
+              <!-- Add more tags here -->
+            </div>
+          </div>
+        </div>
+      </div><!-- /pp-accordion -->
+    </div><!-- /proj-info -->
+
+  </div>
+  <!-- ══ END PING PONG ROBOT SECTION ════════════════════════════════════ -->
+
+  <!-- ══════════════════════════════════════════════════════════════════════
+       CHEMOTHERAPY CARE RETAINER SECTION
+       ══════════════════════════════════════════════════════════════════════ -->
+  <div class="proj-section" id="chemo-retainer">
+
+    <!-- ── Image: replace YOUR_CHEMO_IMAGE.jpg with your filename ── -->
+    <div class="proj-image">
+      <img src="Chemotherapy.jpg" alt="Chemotherapy Care Retainer" />  <!-- ← REPLACE -->
+    </div>
+
+    <div class="proj-info">
+      <h2 class="proj-title">Chemotherapy Care Retainer</h2>
+
+      <div class="rh-accordion" id="chemo-accordion">
+        <button class="rh-accordion-btn" aria-expanded="false" aria-controls="chemo-body">
+          <span>About</span>
+          <span class="chevron" aria-hidden="true"></span>
+        </button>
+        <div class="rh-accordion-body" id="chemo-body" role="region">
+          <div class="rh-accordion-inner">
+            <!-- ════════════════════════════════════════════════════════
+                 DESCRIPTION — edit the text between the <p> tags below
+                 ════════════════════════════════════════════════════════ -->
+            <p>
+              [ADD YOUR CHEMOTHERAPY CARE RETAINER DESCRIPTION HERE.]
+            </p>
+            <p>
+              [ADD MORE DETAILS HERE.]
+            </p>
+            <!-- ═══════════════════════════════════════════════════════ -->
+            <div class="tag-row">
+              <span class="tag">Medical Devices</span>
+              <span class="tag">3D Printing</span>
+              <span class="tag">Bioengineering</span>
+              <!-- Add more tags here -->
+            </div>
+          </div>
+        </div>
+      </div><!-- /chemo-accordion -->
+    </div><!-- /proj-info -->
+
+  </div>
+  <!-- ══ END CHEMOTHERAPY CARE RETAINER SECTION ══════════════════════════ -->
+
+  </div><!-- /projects-inner -->
+  </div><!-- /projects-body -->
+  <!-- ══ END PROJECTS DROPDOWN ══════════════════════════════════════════ -->
+
+  <!-- Placeholder for future sections -->
+  <section class="placeholder-section" id="contact">
+    More sections coming soon...
+  </section>
+
+
+  <script>
+    /* ─── Projects section toggle ────────────────────────────────────── */
+    const projHeader = document.getElementById('projects');
+    const projBody   = document.getElementById('projects-body');
+
+    function toggleProjects () {
+      const isOpen = projHeader.classList.toggle('open');
+      projBody.classList.toggle('open', isOpen);
+      projHeader.setAttribute('aria-expanded', isOpen);
+    }
+
+    projHeader.addEventListener('click', toggleProjects);
+    projHeader.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleProjects(); }
+    });
+
+    /* ─── Accordions — handles all .rh-accordion instances ─────────────── */
+    document.querySelectorAll('.rh-accordion').forEach(accordion => {
+      const btn = accordion.querySelector('.rh-accordion-btn');
+      btn.addEventListener('click', () => {
+        const isOpen = accordion.classList.toggle('open');
+        btn.setAttribute('aria-expanded', isOpen);
+      });
+    });
+
+    /* ─── Nav hide/show on scroll direction ─────────────────────────── */
+    const nav         = document.querySelector('nav');
+    let lastScrollY   = window.scrollY;
+    let ticking       = false;
+
+    function updateNav () {
+      const current = window.scrollY;
+
+      // Add subtle shadow once the user has scrolled away from top
+      nav.classList.toggle('nav-scrolled', current > 10);
+
+      // Hide when scrolling DOWN, reveal when scrolling UP
+      if (current > lastScrollY && current > 80) {
+        nav.classList.add('nav-hidden');
+      } else {
+        nav.classList.remove('nav-hidden');
+      }
+
+      lastScrollY = current;
+      ticking     = false;
+    }
+
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(updateNav);
+        ticking = true;
+      }
+    }, { passive: true });
+    /* ─── Scroll-scrubbed video ──────────────────────────────────────── */
+    /*
+     * As the user scrolls through #rh-scroll-container, the video's
+     * currentTime is set proportionally — so each frame plays on scroll.
+     *
+     * SCROLL_HEIGHT_VH controls how many viewport-heights of scrolling
+     * it takes to play the full video.
+     *   300 = 3x the viewport height of scrolling (shorter scroll)
+     *   500 = 5x the viewport height (slower, more deliberate scroll)
+     */
+    const SCROLL_HEIGHT_VH = 400;
+
+    const scrollContainer = document.getElementById('rh-scroll-container');
+    const video           = document.getElementById('rh-bg-video');
+    const isVideoMode     = getComputedStyle(video).display !== 'none';
+
+    /* Apply the container height from JS so it's easy to change in one place */
+    document.documentElement.style.setProperty(
+      '--rh-scroll-height', SCROLL_HEIGHT_VH + 'vh'
+    );
+
+    if (isVideoMode) {
+      video.pause();
+      video.currentTime = 0;
+
+      let targetTime = 0;
+      let rafPending = false;
+
+      function getScrollProgress () {
+        const rect       = scrollContainer.getBoundingClientRect();
+        const scrollable = scrollContainer.offsetHeight - window.innerHeight;
+        const scrolled   = Math.max(0, -rect.top);
+        return Math.min(1, scrolled / scrollable);
+      }
+
+      /* Runs once per animation frame — decoupled from scroll frequency */
+      function applySeek () {
+        rafPending = false;
+        if (video.readyState < 2) return; // not enough data yet
+        /* fastSeek() (Firefox) skips to nearest keyframe — much faster.
+           currentTime (Chrome/Safari) does a precise seek.            */
+        if (video.fastSeek) {
+          video.fastSeek(targetTime);
+        } else {
+          video.currentTime = targetTime;
+        }
+      }
+
+      function onScroll () {
+        if (!video.duration) return;
+        targetTime = getScrollProgress() * video.duration;
+        /* Only queue one rAF at a time — drops extra scroll events */
+        if (!rafPending) {
+          rafPending = true;
+          requestAnimationFrame(applySeek);
+        }
+      }
+
+      video.addEventListener('loadedmetadata', () => {
+        targetTime = getScrollProgress() * video.duration;
+        video.currentTime = targetTime;
+      });
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    }
+    /* If using a GIF, nothing extra needed — it displays as a static bg.
+       For frame-by-frame scroll, switch to an MP4 (see CSS comments).  */
+  </script>
+
+</body>
+</html>
