@@ -874,6 +874,100 @@
     }
 
     /* #projects-inner / #work-inner: no overflow set — sticky works freely */
+
+    /* ─── Mobile hamburger nav ──────────────────────────────────────────── */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      z-index: 101;
+    }
+
+    .nav-hamburger span {
+      display: block;
+      width: 24px;
+      height: 2.5px;
+      background: var(--text-main);
+      border-radius: 2px;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    .nav-hamburger.open span:nth-child(1) {
+      transform: translateY(7.5px) rotate(45deg);
+    }
+
+    .nav-hamburger.open span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .nav-hamburger.open span:nth-child(3) {
+      transform: translateY(-7.5px) rotate(-45deg);
+    }
+
+    @media (max-width: 700px) {
+      nav {
+        padding: 1rem 1.5rem;
+      }
+
+      .nav-hamburger {
+        display: flex;
+      }
+
+      nav ul {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        background: rgba(255, 255, 255, 0.97);
+        backdrop-filter: blur(12px);
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+        padding: 0.5rem 0;
+        gap: 0;
+        box-shadow: 0 8px 24px rgba(76, 29, 149, 0.10);
+      }
+
+      nav ul.open {
+        display: flex;
+      }
+
+      nav ul li a {
+        display: block;
+        padding: 0.9rem 2rem;
+        font-size: 1rem;
+        letter-spacing: 0.04em;
+      }
+
+      nav ul li a:hover {
+        background: rgba(76, 29, 149, 0.05);
+      }
+
+      /* Section headers bigger on mobile */
+      .section-header {
+        height: 7rem;
+        padding: 0 1.5rem;
+      }
+
+      .section-header h2 {
+        font-size: 2rem;
+      }
+
+      .section-header h2::after {
+        left: 1.5rem;
+        bottom: 1.4rem;
+      }
+
+      .section-header .sh-chevron {
+        width: 18px;
+        height: 18px;
+      }
+    }
   </style>
 </head>
 
@@ -882,7 +976,12 @@
   <!-- ── Navigation ───────────────────────────────────────────────────── -->
   <nav>
     <div class="logo">Aarush <span>Gota</span></div>
-    <ul>
+    <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <ul id="nav-menu">
       <li><a href="#home">Home</a></li>
       <li><a href="#projects">Projects</a></li>
       <li><a href="#work">Leadership</a></li>
@@ -1431,6 +1530,28 @@
 
 
   <script>
+    /* ─── Mobile hamburger menu ──────────────────────────────────────────── */
+    (function () {
+      const btn = document.getElementById('nav-hamburger');
+      const menu = document.getElementById('nav-menu');
+      if (!btn || !menu) return;
+
+      btn.addEventListener('click', () => {
+        const isOpen = menu.classList.toggle('open');
+        btn.classList.toggle('open', isOpen);
+        btn.setAttribute('aria-expanded', String(isOpen));
+      });
+
+      /* Close menu when a link is tapped */
+      menu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          menu.classList.remove('open');
+          btn.classList.remove('open');
+          btn.setAttribute('aria-expanded', 'false');
+        });
+      });
+    })();
+
     /* ─── Section header toggles — auto-wires all .section-header elements ── */
     document.querySelectorAll('.section-header').forEach(header => {
       const bodyId = header.getAttribute('aria-controls');
