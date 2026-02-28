@@ -241,7 +241,7 @@
       inset: 0;
       width: 100%;
       height: 100%;
-      background-image: url('RobotHand.gif');
+      background-image: url('images/RobotHand.gif');
       /* ← REPLACE with your gif filename */
       background-size: cover;
       background-position: center;
@@ -373,6 +373,7 @@
       padding-bottom: 1.25rem;
       /* ✅ ensures last line isn't flush/cut */
       box-sizing: border-box;
+      padding-bottom: calc(3rem + 8px);
     }
 
     .rh-accordion.open .rh-accordion-body {
@@ -380,17 +381,10 @@
     }
 
     .rh-accordion-inner {
-      padding: 0 1.5rem;
+      padding: 0 1.5rem 1.5rem;
       color: var(--text-muted);
       font-size: 0.95rem;
       line-height: 1.8;
-    }
-
-    /* margin-bottom on last child is reliably included in scroll height
-       (unlike padding-bottom on the scroll container itself)            */
-    .rh-accordion-inner>*:last-child,
-    .rh-accordion-inner ul li:last-child {
-      margin-bottom: 1.5rem;
     }
 
     .proj-info {
@@ -913,7 +907,7 @@
 
     <!-- ── Photo: replace YOUR_PHOTO.jpg with your image filename ── -->
     <div class="hero-photo">
-      <img src="Aarush Photo.JPG" alt="Aarush Gota" /> <!-- ← REPLACE -->
+      <img src="images/Aarush Photo.JPG" alt="Aarush Gota" /> <!-- ← REPLACE -->
     </div>
   </section>
 
@@ -942,7 +936,7 @@
          Set display:block in CSS (#rh-bg-video) to activate.
     -->
           <video id="rh-bg-video" muted playsinline preload="auto">
-            <source src="RobotHand.mp4" type="video/mp4" />
+            <source src="images/RobotHand.mp4" type="video/mp4" />
           </video>
 
           <!-- ── Foreground ─────────────────────────────────────────────────── -->
@@ -986,7 +980,7 @@
 
         <!-- ── Image: replace YOUR_PINGPONG_IMAGE.jpg with your filename ── -->
         <div class="proj-image">
-          <img src="PingPong.jpg" alt="Ping Pong Robot" /> <!-- ← REPLACE -->
+          <img src="images/PingPong.jpg" alt="Ping Pong Robot" /> <!-- ← REPLACE -->
         </div>
 
         <div class="proj-info">
@@ -1020,7 +1014,7 @@
 
         <!-- ── Image: replace YOUR_CHEMO_IMAGE.jpg with your filename ── -->
         <div class="proj-image">
-          <img src="Chemotherapy.jpg" alt="Chemotherapy Care Retainer" /> <!-- ← REPLACE -->
+          <img src="images/Chemotherapy.jpg" alt="Chemotherapy Care Retainer" /> <!-- ← REPLACE -->
         </div>
 
         <div class="proj-info">
@@ -1065,7 +1059,7 @@
          ══════════════════════════════════════════════════════════════════════ -->
       <div class="proj-section" id="um-autonomy">
         <div class="proj-image">
-          <img src="Autonomy.jpg" alt="UM::Autonomy" /> <!-- ← REPLACE -->
+          <img src="images/Autonomy.jpg" alt="UM::Autonomy" /> <!-- ← REPLACE -->
         </div>
         <div class="proj-info">
           <h2 class="proj-title">Navigation &amp; Controls Programming Lead<br><span
@@ -1093,7 +1087,7 @@
          ══════════════════════════════════════════════════════════════════════ -->
       <div class="proj-section" id="frc-robotics">
         <div class="proj-image">
-          <img src="Robotics.jpg" alt="Team 245 FRC Robotics" /> <!-- ← REPLACE -->
+          <img src="images/Robotics.jpg" alt="Team 245 FRC Robotics" /> <!-- ← REPLACE -->
         </div>
         <div class="proj-info">
           <h2 class="proj-title">Team Captain &amp; Programming Lead<br><span
@@ -1121,7 +1115,7 @@
          ══════════════════════════════════════════════════════════════════════════════ -->
       <div class="proj-section" id="pp-club">
         <div class="proj-image">
-          <img src="PingClub.jpg" alt="Ping Pong Club" /> <!-- ← REPLACE -->
+          <img src="images/PingClub.jpg" alt="Ping Pong Club" /> <!-- ← REPLACE -->
         </div>
         <div class="proj-info">
           <h2 class="proj-title">Co-Founded<br><span style="font-size:0.7em;font-weight:600;color:var(--accent)">Ping
@@ -1162,7 +1156,7 @@
          ══════════════════════════════════════════════════════════════════════ -->
       <div class="proj-section" id="work-moonpreneur">
         <div class="proj-image">
-          <img src="Moonprenuer.jpg" alt="Moonpreneur" /> <!-- ← REPLACE -->
+          <img src="images/Moonprenuer.jpg" alt="Moonpreneur" /> <!-- ← REPLACE -->
         </div>
         <div class="proj-info">
           <h2 class="proj-title">Event Partner<br><span
@@ -1190,7 +1184,7 @@
          ══════════════════════════════════════════════════════════════════════ -->
       <div class="proj-section" id="math-corps">
         <div class="proj-image">
-          <img src="MathCorps.jpg" alt="Math Corps" /> <!-- ← REPLACE -->
+          <img src="images/MathCorps.jpg" alt="Math Corps" /> <!-- ← REPLACE -->
         </div>
         <div class="proj-info">
           <h2 class="proj-title">Tutor<br><span style="font-size:0.7em;font-weight:600;color:var(--accent)">Math
@@ -1232,7 +1226,7 @@
 
           <!-- ── School logo: replace Umich.jpg with your logo file ── -->
           <div class="edu-logo">
-            <img src="Umich.jpg" alt="University of Michigan" />
+            <img src="images/Umich.jpg" alt="University of Michigan" />
           </div>
 
           <!-- ── Details ──────────────────────────────────────────────── -->
@@ -1280,7 +1274,7 @@
 
         <!-- ── Certificate image: replace CS50_Cert.jpg with your file ── -->
         <div class="proj-image">
-          <img src="CS50.png" alt="HarvardX CS50 Certificate" /> <!-- ← REPLACE -->
+          <img src="images/CS50.png" alt="HarvardX CS50 Certificate" /> <!-- ← REPLACE -->
         </div>
 
         <div class="proj-info">
@@ -1315,7 +1309,7 @@
 
         <!-- ── Certificate image: replace InspiritAI_Cert.jpg with your file ── -->
         <div class="proj-image">
-          <img src="InspiritAI.png" alt="Inspirit AI Certificate" /> <!-- ← REPLACE -->
+          <img src="images/InspiritAI.png" alt="Inspirit AI Certificate" /> <!-- ← REPLACE -->
         </div>
 
         <div class="proj-info">
@@ -1350,7 +1344,7 @@
 
         <!-- ── Certificate image: replace PY4E_Cert.jpg with your file ── -->
         <div class="proj-image">
-          <img src="Python For Everybody.jpg" alt="Python for Everybody Certificate" /> <!-- ← REPLACE -->
+          <img src="images/Python For Everybody.jpg" alt="Python for Everybody Certificate" /> <!-- ← REPLACE -->
         </div>
 
         <div class="proj-info">
@@ -1627,8 +1621,7 @@
 
           if (hasBullets) {
             el.innerHTML =
-              '<ul style="padding-left:1.4em;margin:0 0 1.5rem 0;line-height:1.7">' +
-              lines.map(l =>
+              '<ul style="padding-left:1.4em;margin:0;line-height:1.7">' + lines.map(l =>
                 '<li>' + l.replace(/^\s*[\u25cf\u25cb\-]\s*/, '').trim() + '</li>'
               ).join('') +
               '</ul>';
