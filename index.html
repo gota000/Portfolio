@@ -199,20 +199,71 @@
      * The inner section sticks to the top while scroll progress drives the video.
      */
     #rh-scroll-container {
-      /* Height set by JS via --rh-scroll-height custom property */
-      height: var(--rh-scroll-height, 400vh);
+      display: flex;
+      align-items: stretch;
+      margin: 1.5rem 1rem;
+      height: 67vh;
+      box-shadow: 0 4px 32px rgba(76, 29, 149, 0.10);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+    }
+
+    /* ── Left 2/3 — video panel, scroll-scrubbed ──────────────────────── */
+    #rh-video-panel {
+      flex: 2;
+      min-width: 0;
+      min-height: 0;
+      position: relative;
+      overflow: hidden;
+      border-radius: 20px 0 0 20px;
+    }
+
+    /* ── Right 1/3 — info panel (title + accordion + hint) ───────────── */
+    #rh-pass-panel {
+      flex: 1;
+      min-width: 280px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 2.5rem 2rem;
+      background: var(--bg-card);
+      backdrop-filter: blur(12px);
+      border-radius: 0 20px 20px 0;
+    }
+
+    .rh-pass-hint {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      margin-top: auto;
+      padding-top: 1.5rem;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      opacity: 0.55;
+      user-select: none;
+    }
+
+    #rh-pass-panel .rh-pass-arrow {
+      font-size: 1rem;
+      display: inline-block;
+      animation: rh-bounce-left 1.6s ease-in-out infinite;
+    }
+
+    @keyframes rh-bounce-left {
+      0%, 100% { transform: translateX(0); }
+      50%       { transform: translateX(-5px); }
     }
 
     #robot-hand {
-      position: sticky;
-      top: 1rem;
-      height: calc(100vh - 2rem);
-      margin: 0 1rem;
+      position: relative;
+      height: 100%;
+      margin: 0;
       overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
-      border-radius: 20px;
     }
 
     /* ── Background layer ──────────────────────────────────────────────── */
@@ -260,56 +311,15 @@
       /* ← adjust % to shift crop: 0%=top, 50%=center, 100%=bottom */
     }
 
-    /* Dark gradient overlay so UI stays readable */
+    /* Subtle vignette so the video edges feel contained */
     #robot-hand::after {
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(to bottom,
-          rgba(10, 5, 15, 0.55) 0%,
-          rgba(10, 5, 15, 0.20) 40%,
-          rgba(10, 5, 15, 0.65) 100%);
+      background: linear-gradient(to right,
+          rgba(10, 5, 15, 0.08) 0%,
+          rgba(10, 5, 15, 0.00) 30%);
       pointer-events: none;
-    }
-
-    /* ── Foreground content ────────────────────────────────────────────── */
-    .rh-content {
-      position: relative;
-      z-index: 2;
-      max-width: 520px;
-      padding: 2rem 2.5rem;
-      text-align: left;
-      margin-left: auto;
-      /* pushes the block to the right */
-      margin-right: 4vw;
-    }
-
-    .rh-label {
-      font-size: 0.75rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 0.75rem;
-    }
-
-    .rh-title {
-      display: inline-block;
-      font-size: clamp(1.4rem, 3vw, 2.2rem);
-      font-weight: 800;
-      line-height: 1.2;
-      margin-bottom: 1.2rem;
-      color: #1a1008;
-      background: rgba(255, 255, 255, 0.90);
-      padding: 0.35rem 1rem;
-      border-radius: 6px;
-      backdrop-filter: blur(6px);
-    }
-
-    .rh-subtitle {
-      color: rgba(20, 10, 0, 0.75);
-      font-size: 1rem;
-      margin-bottom: 2.5rem;
-      text-shadow: 0 1px 8px rgba(0, 0, 0, 0.8);
     }
 
     /* ── Collapsible description box ───────────────────────────────────── */
@@ -1030,50 +1040,56 @@
        ROBOT HAND PROJECT SECTION
        ══════════════════════════════════════════════════════════════════════ -->
       <div id="rh-scroll-container">
-        <section id="robot-hand">
 
-          <!-- ── GIF background ──────────────────────────────────────────────── -->
-          <div id="rh-bg-gif"></div>
+        <!-- ── Left 2/3: scroll on this panel to scrub through video frames ─── -->
+        <div id="rh-video-panel">
+          <section id="robot-hand">
 
-          <!-- ── VIDEO background (scroll-scrubbed) ───────────────────────────
-         Replace YOUR_VIDEO_FILENAME.mp4 with your actual file.
-         Set display:block in CSS (#rh-bg-video) to activate.
-    -->
-          <video id="rh-bg-video" muted playsinline autoplay preload="auto">
-            <source src="images/RobotHand.mp4" type="video/mp4" />
-          </video>
+            <!-- ── GIF background ────────────────────────────────────────────── -->
+            <div id="rh-bg-gif"></div>
 
-          <!-- ── Foreground ─────────────────────────────────────────────────── -->
-          <div class="rh-content">
-            <h2 class="rh-title">Robotic Hand</h2>
+            <!-- ── VIDEO background (scroll-scrubbed) ─────────────────────────
+           Replace YOUR_VIDEO_FILENAME.mp4 with your actual file.
+           Set display:block in CSS (#rh-bg-video) to activate.
+      -->
+            <video id="rh-bg-video" muted playsinline preload="auto">
+              <source src="images/RobotHand.mp4" type="video/mp4" />
+            </video>
 
-            <!-- ── Collapsible description ──────────────────────────────────── -->
-            <div class="rh-accordion" id="rh-accordion">
+          </section>
+        </div><!-- /rh-video-panel -->
 
-              <button class="rh-accordion-btn" aria-expanded="false" aria-controls="rh-body">
-                <span>About</span>
-                <span class="chevron" aria-hidden="true"></span>
-              </button>
+        <!-- ── Right 1/3: title, about, and scroll hint ────────────────────── -->
+        <div id="rh-pass-panel">
 
-              <div class="rh-accordion-body" id="rh-body" role="region">
-                <div class="rh-accordion-inner">
+          <h2 class="proj-title">Robotic Hand</h2>
 
-                  <!-- ════════════════════════════════════════════════════════
+          <div class="rh-accordion" id="rh-accordion">
+            <button class="rh-accordion-btn" aria-expanded="false" aria-controls="rh-body">
+              <span>About</span>
+              <span class="chevron" aria-hidden="true"></span>
+            </button>
+            <div class="rh-accordion-body" id="rh-body" role="region">
+              <div class="rh-accordion-inner">
+                <!-- ════════════════════════════════════════════════════════
                  DESCRIPTION — edit the text between the <p> tags below
                  ════════════════════════════════════════════════════════ -->
-                  <div data-content="robot-hand">
-                    [ADD YOUR PROJECT DESCRIPTION HERE. Describe what the robot hand does,
-                    how it works, and what makes it interesting.]
-                  </div>
-                  <!-- ═══════════════════════════════════════════════════════ -->
-
+                <div data-content="robot-hand">
+                  [ADD YOUR PROJECT DESCRIPTION HERE. Describe what the robot hand does,
+                  how it works, and what makes it interesting.]
                 </div>
+                <!-- ═══════════════════════════════════════════════════════ -->
               </div>
+            </div>
+          </div><!-- /rh-accordion -->
 
-            </div><!-- /rh-accordion -->
-          </div><!-- /rh-content -->
+          <div class="rh-pass-hint">
+            <span class="rh-pass-arrow">&#8592;</span>
+            <span>Scroll on image to play</span>
+          </div>
 
-        </section>
+        </div><!-- /rh-pass-panel -->
+
       </div><!-- /rh-scroll-container -->
       <!-- ══ END ROBOT HAND SECTION ══════════════════════════════════════════ -->
 
@@ -1636,34 +1652,32 @@
         ticking = true;
       }
     }, { passive: true });
-    /* ─── Scroll-scrubbed video ──────────────────────────────────────── */
+    /* ─── Scroll-scrubbed video (wheel on left panel) ─────────────────── */
     /*
-     * As the user scrolls through #rh-scroll-container, the video's
-     * currentTime is set proportionally — so each frame plays on scroll.
+     * The left 2/3 (#rh-video-panel) intercepts wheel / touch events.
+     * Scrolling over it scrubs video frames; the page does NOT scroll.
+     * When the video reaches its start or end, wheel events escape so the
+     * page can scroll away normally.
      *
-     * SCROLL_HEIGHT_VH controls how many viewport-heights of scrolling
-     * it takes to play the full video.
-     *   300 = 3x the viewport height of scrolling (shorter scroll)
-     *   500 = 5x the viewport height (slower, more deliberate scroll)
+     * Scrolling over the right 1/3 (#rh-pass-panel) is never intercepted —
+     * the page scrolls straight past the section.
+     *
+     * WHEEL_SENSITIVITY: seconds of video advanced per pixel of scroll delta.
+     * Raise the value to scrub faster; lower it for a slower, deliberate feel.
      */
-    const SCROLL_HEIGHT_VH = 400;
+    const WHEEL_SENSITIVITY = 0.008;
 
-    const scrollContainer = document.getElementById('rh-scroll-container');
-    const video = document.getElementById('rh-bg-video');
+    const videoPanel = document.getElementById('rh-video-panel');
+    const video      = document.getElementById('rh-bg-video');
     const isVideoMode = getComputedStyle(video).display !== 'none';
-
-    /* Apply the container height from JS so it's easy to change in one place */
-    document.documentElement.style.setProperty(
-      '--rh-scroll-height', SCROLL_HEIGHT_VH + 'vh'
-    );
 
     if (isVideoMode) {
       video.pause();
       video.currentTime = 0;
 
       let targetTime = 0;
-      let rafPending = false;
-      let unlocked = false;
+      let rafPending  = false;
+      let unlocked    = false;
 
       /*
        * iOS Safari requires a play() call before currentTime seeks work,
@@ -1677,31 +1691,21 @@
           p.then(() => {
             unlocked = true;
             video.pause();
-            applySeek(); // apply any pending seek after unlocking
+            applySeek();
           }).catch(() => {});
         } else {
           unlocked = true;
         }
       }
 
-      /* Try to unlock via autoplay immediately; fall back to first touch/click */
       unlockVideo();
       document.addEventListener('touchstart', unlockVideo, { once: true, passive: true });
-      document.addEventListener('click', unlockVideo, { once: true });
+      document.addEventListener('click',      unlockVideo, { once: true });
 
-      function getScrollProgress() {
-        const rect = scrollContainer.getBoundingClientRect();
-        const scrollable = scrollContainer.offsetHeight - window.innerHeight;
-        const scrolled = Math.max(0, -rect.top);
-        return Math.min(1, scrolled / scrollable);
-      }
-
-      /* Runs once per animation frame — decoupled from scroll frequency */
+      /* Runs once per animation frame — decoupled from input frequency */
       function applySeek() {
         rafPending = false;
-        if (video.readyState < 2) return; // not enough data yet
-        /* fastSeek() (Firefox) skips to nearest keyframe — much faster.
-           currentTime (Chrome/Safari) does a precise seek.            */
+        if (video.readyState < 2) return;
         if (video.fastSeek) {
           video.fastSeek(targetTime);
         } else {
@@ -1709,28 +1713,60 @@
         }
       }
 
-      function onScroll() {
+      /* ── Mouse wheel / trackpad ──────────────────────────────────────── */
+      videoPanel.addEventListener('wheel', (e) => {
         if (!video.duration) return;
-        targetTime = getScrollProgress() * video.duration;
-        /* Only queue one rAF at a time — drops extra scroll events */
+
+        /* Normalise across deltaMode (pixels / lines / pages) */
+        const raw = e.deltaMode === 1 ? e.deltaY * 16
+                  : e.deltaMode === 2 ? e.deltaY * window.innerHeight
+                  : e.deltaY;
+
+        /* At the video boundaries, release the scroll to the page */
+        if (raw < 0 && targetTime <= 0)              return;
+        if (raw > 0 && targetTime >= video.duration) return;
+
+        e.preventDefault();
+        targetTime = Math.max(0, Math.min(video.duration, targetTime + raw * WHEEL_SENSITIVITY));
+
         if (!rafPending) {
           rafPending = true;
           requestAnimationFrame(applySeek);
         }
-      }
+      }, { passive: false });
+
+      /* ── Touch scrubbing (mobile) ────────────────────────────────────── */
+      let lastTouchY = null;
+
+      videoPanel.addEventListener('touchstart', (e) => {
+        lastTouchY = e.touches[0].clientY;
+      }, { passive: true });
+
+      videoPanel.addEventListener('touchmove', (e) => {
+        if (!video.duration || lastTouchY === null) return;
+        const dy = lastTouchY - e.touches[0].clientY; /* positive = finger moving up = scroll down */
+        lastTouchY = e.touches[0].clientY;
+
+        if (dy < 0 && targetTime <= 0)              return;
+        if (dy > 0 && targetTime >= video.duration) return;
+
+        e.preventDefault();
+        targetTime = Math.max(0, Math.min(video.duration, targetTime + dy * WHEEL_SENSITIVITY));
+
+        if (!rafPending) {
+          rafPending = true;
+          requestAnimationFrame(applySeek);
+        }
+      }, { passive: false });
 
       video.addEventListener('loadedmetadata', () => {
-        targetTime = getScrollProgress() * video.duration;
-        video.currentTime = targetTime;
+        targetTime = 0;
+        video.currentTime = 0;
       });
 
-      /* Re-apply the seek once enough data has buffered (mobile often buffers lazily) */
-      video.addEventListener('canplay', onScroll);
-
-      window.addEventListener('scroll', onScroll, { passive: true });
-      /* touchmove fires during active finger movement on mobile — supplement scroll */
-      window.addEventListener('touchmove', onScroll, { passive: true });
-      onScroll();
+      video.addEventListener('canplay', () => {
+        if (!rafPending) { rafPending = true; requestAnimationFrame(applySeek); }
+      });
     }
     /* If using a GIF, nothing extra needed — it displays as a static bg.
        For frame-by-frame scroll, switch to an MP4 (see CSS comments).  */
