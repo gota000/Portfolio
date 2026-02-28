@@ -1034,7 +1034,7 @@
          Replace YOUR_VIDEO_FILENAME.mp4 with your actual file.
          Set display:block in CSS (#rh-bg-video) to activate.
     -->
-          <video id="rh-bg-video" muted playsinline preload="auto">
+          <video id="rh-bg-video" muted playsinline autoplay preload="auto">
             <source src="images/RobotHand.mp4" type="video/mp4" />
           </video>
 
@@ -1658,6 +1658,31 @@
 
       let targetTime = 0;
       let rafPending = false;
+      let unlocked = false;
+
+      /*
+       * iOS Safari requires a play() call before currentTime seeks work,
+       * even on muted videos. We call play() then immediately pause() to
+       * "unlock" the video for programmatic seeking.
+       */
+      function unlockVideo() {
+        if (unlocked) return;
+        const p = video.play();
+        if (p !== undefined) {
+          p.then(() => {
+            unlocked = true;
+            video.pause();
+            applySeek(); // apply any pending seek after unlocking
+          }).catch(() => {});
+        } else {
+          unlocked = true;
+        }
+      }
+
+      /* Try to unlock via autoplay immediately; fall back to first touch/click */
+      unlockVideo();
+      document.addEventListener('touchstart', unlockVideo, { once: true, passive: true });
+      document.addEventListener('click', unlockVideo, { once: true });
 
       function getScrollProgress() {
         const rect = scrollContainer.getBoundingClientRect();
@@ -1694,7 +1719,12 @@
         video.currentTime = targetTime;
       });
 
+      /* Re-apply the seek once enough data has buffered (mobile often buffers lazily) */
+      video.addEventListener('canplay', onScroll);
+
       window.addEventListener('scroll', onScroll, { passive: true });
+      /* touchmove fires during active finger movement on mobile — supplement scroll */
+      window.addEventListener('touchmove', onScroll, { passive: true });
       onScroll();
     }
     /* If using a GIF, nothing extra needed — it displays as a static bg.
