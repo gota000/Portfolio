@@ -50,6 +50,6 @@ I am passionate about building hands-on engineering projects and motivated to so
 
 [inspirit-ai]
 ●  Built core ML skills for data preparation, model training, and evaluation; developed an AI project with a team using historical stock data to forecast market trends.
-s
+
 [python-for-everybody]
 ●  Completed a 5-course Python sequence covering programming fundamentals, Python data structures, web data/APIs (HTML/XML/JSON), and SQL/database workflow.
