@@ -370,16 +370,92 @@
       color: var(--accent);
     }
 
-    /* ─── Footer spacer section ────────────────────────────────────────── */
-    .placeholder-section {
-      min-height: 100vh;
+    /* ─── Contact / Footer ─────────────────────────────────────────────── */
+    /* ─── Contact / Footer ─────────────────────────────────────────────── */
+    .contact-section {
+      padding: 5rem 2rem 3rem;
+      text-align: center;
+      border-top: 1px solid var(--border);
+      background: var(--bg-dark);
+    }
+
+    .contact-tag {
+      display: block;
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .contact-heading {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 900;
+      color: var(--text-main);
+      letter-spacing: -0.02em;
+      margin-bottom: 3rem;
+    }
+
+    .contact-heading span { color: var(--accent); }
+
+    .contact-sub {
+      max-width: 400px;
+      margin: 0 auto 3rem;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    .contact-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.8rem;
+      margin-bottom: 3.5rem;
+    }
+
+    .contact-card {
       display: flex;
       align-items: center;
-      justify-content: center;
+      gap: 0.55rem;
+      text-decoration: none;
       color: var(--text-muted);
-      font-size: 1rem;
-      letter-spacing: 0.05em;
-      border-top: 1px solid var(--border);
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      padding-bottom: 2px;
+      border-bottom: 1.5px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .contact-card:hover {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    .contact-card svg { flex-shrink: 0; transition: color 0.2s; }
+    .contact-card:hover svg { color: var(--accent); }
+
+    /* primary card same style — no special treatment in minimal mode */
+    .contact-card--primary { color: var(--accent); border-bottom-color: var(--border); }
+    .contact-card--primary:hover { border-bottom-color: var(--accent); }
+
+    .contact-divider {
+      width: min(400px, 80%);
+      margin: 0 auto 1.5rem;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .contact-footer {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      letter-spacing: 0.06em;
+    }
+
+    @media (max-width: 600px) {
+      .contact-links { gap: 1.2rem; }
     }
 
     /* ─── Image-based project sections ────────────────────────────────── */
@@ -434,10 +510,177 @@
 
     /* Accordion inside proj-info reuses .rh-accordion styles */
 
+    /* Certificate cards — 2/3 viewport height, full image visible */
+    .proj-section--cert {
+      max-height: 67vh;
+      align-items: stretch;
+    }
+
+    .proj-section--cert .proj-image {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f5f3fa;
+    }
+
+    .proj-section--cert .proj-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+    }
+
     @media (max-width: 700px) {
       .proj-section  { flex-direction: column; }
       .proj-image    { min-height: 240px; flex: none; border-radius: 20px 20px 0 0; }
       .proj-info     { min-width: 0; border-radius: 0 0 20px 20px; }
+    }
+
+    /* ─── Education section ──────────────────────────────────────────────── */
+    .edu-inner-wrap {
+      padding: 1.5rem 1rem 3rem;
+      background: var(--bg-dark);
+    }
+
+    .edu-card {
+      display: flex;
+      align-items: center;
+      gap: 2.5rem;
+      background: linear-gradient(135deg, #faf8ff 0%, #ffffff 60%, #f0ebff 100%);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2.5rem 2.5rem 2.5rem 3rem;
+      box-shadow: 0 8px 40px rgba(76, 29, 149, 0.12),
+                  0 2px 12px rgba(0, 0, 0, 0.04);
+      position: relative;
+      overflow: hidden;
+      margin: 0 1rem;
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
+    }
+
+    .edu-card:hover {
+      box-shadow: 0 12px 50px rgba(76, 29, 149, 0.18),
+                  0 4px 16px rgba(0, 0, 0, 0.06);
+      transform: translateY(-2px);
+    }
+
+    /* Left accent stripe */
+    .edu-card::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 6px;
+      background: linear-gradient(180deg, var(--accent) 0%, #7c3aed 100%);
+      border-radius: 20px 0 0 20px;
+    }
+
+    /* Decorative soft blob */
+    .edu-card::after {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 220px;
+      height: 220px;
+      background: radial-gradient(circle, rgba(76, 29, 149, 0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .edu-logo {
+      flex-shrink: 0;
+      width: 140px;
+      height: 140px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ffffff;
+      border: 1.5px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(76, 29, 149, 0.12);
+      position: relative;
+      z-index: 1;
+    }
+
+    .edu-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 0.9rem;
+      display: block;
+    }
+
+    .edu-details {
+      flex: 1;
+      position: relative;
+      z-index: 1;
+    }
+
+    .edu-school {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 0.3rem;
+      line-height: 1.2;
+    }
+
+    .edu-degree {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 1.2rem;
+    }
+
+    .edu-divider {
+      width: 100%;
+      height: 1px;
+      background: var(--border);
+      margin: 1.2rem 0;
+    }
+
+    .edu-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-bottom: 0;
+    }
+
+    .edu-badge {
+      padding: 0.35rem 1rem;
+      border: 1.5px solid var(--border);
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: rgba(255,255,255,0.8);
+    }
+
+    .edu-badge-gpa {
+      border-color: var(--accent);
+      color: #ffffff;
+      background: var(--accent);
+    }
+
+    .edu-badge-minor {
+      border-color: #7c3aed;
+      color: #7c3aed;
+      background: rgba(124, 58, 237, 0.08);
+    }
+
+    .edu-cw-label {
+      display: block;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      font-weight: 700;
+      margin-bottom: 0.7rem;
+    }
+
+    @media (max-width: 700px) {
+      .edu-inner-wrap { padding: 1rem 0.5rem 2rem; }
+      .edu-card       { flex-direction: column; align-items: flex-start; gap: 1.5rem;
+                        padding: 2rem 1.5rem 2rem 2rem; margin: 0 0.5rem; }
+      .edu-logo       { width: 90px; height: 90px; }
     }
 
     /* ─── Scrollbar ────────────────────────────────────────────────────── */
@@ -447,10 +690,14 @@
 
     /* ─── Section headers (Projects toggle) ─────────────────────────── */
     .section-header {
-      padding: 4rem 3rem 2rem;
+      height: 7rem;
+      padding: 0 3rem;
       background: var(--bg-dark);
+      border-top: 1px solid #d1d1d1;
       cursor: pointer;
       user-select: none;
+      position: relative;
+      overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -463,16 +710,21 @@
       font-weight: 900;
       color: var(--text-main);
       letter-spacing: -0.01em;
+      line-height: 1;
       transition: color 0.2s;
     }
 
+    /* Purple bar absolutely positioned — fully outside flex/text flow */
     .section-header h2 span {
+      position: absolute;
+      bottom: 1.1rem;
+      left: 3rem;
       display: block;
       width: 3rem;
       height: 4px;
       background: var(--accent);
       border-radius: 2px;
-      margin-top: 0.6rem;
+      margin: 0;
     }
 
     .section-header .sh-chevron {
@@ -491,21 +743,18 @@
       transform: rotate(-135deg);
     }
 
-    /* Projects body — collapsed by default, expands on .open */
-    /* Uses the CSS grid trick so any height content animates smoothly */
-    #projects-body {
-      display: grid;
-      grid-template-rows: 0fr;
-      transition: grid-template-rows 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Section body — height animated by JS, overflow:clip doesn't create a scroll container */
+    #projects-body,
+    #work-body,
+    #work2-body,
+    #education-body,
+    #certs-body {
+      height: 0;
+      overflow: clip;
+      transition: height 0.55s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    #projects-body.open {
-      grid-template-rows: 1fr;
-    }
-
-    #projects-inner {
-      overflow: hidden;
-    }
+    /* #projects-inner / #work-inner: no overflow set — sticky works freely */
   </style>
 </head>
 <body>
@@ -515,8 +764,13 @@
     <div class="logo">Aarush <span>Gota</span></div>
     <ul>
       <li><a href="#home">Home</a></li>
-      <li><a href="#robot-hand">Projects</a></li>
-      <li><a href="#contact">Contact</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#work">Leadership</a></li>
+      <li><a href="#work2">Work</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#certs">Certificates</a></li>
+      <li><a href="#contact">Contact
+      </a></li>
     </ul>
   </nav>
 
@@ -692,26 +946,477 @@
   </div><!-- /projects-body -->
   <!-- ══ END PROJECTS DROPDOWN ══════════════════════════════════════════ -->
 
-  <!-- Placeholder for future sections -->
-  <section class="placeholder-section" id="contact">
-    More sections coming soon...
+  <!-- ── Work & Leadership header (click to expand/collapse) ───────────── -->
+  <div class="section-header" id="work" role="button" aria-expanded="false" aria-controls="work-body" tabindex="0">
+    <h2>Leadership<span></span></h2>
+    <span class="sh-chevron" aria-hidden="true"></span>
+  </div>
+
+  <div id="work-body" role="region">
+  <div id="work-inner">
+
+    <!-- ══════════════════════════════════════════════════════════════════════
+         NAVIGATION AND CONTROLS PROGRAMMING LEAD — UM::AUTONOMY
+         ══════════════════════════════════════════════════════════════════════ -->
+    <div class="proj-section" id="um-autonomy">
+      <div class="proj-image">
+        <img src="Autonomy.jpg" alt="UM::Autonomy" />  <!-- ← REPLACE -->
+      </div>
+      <div class="proj-info">
+        <h2 class="proj-title">Navigation &amp; Controls Programming Lead<br><span style="font-size:0.7em;font-weight:600;color:var(--accent)">UM::Autonomy</span></h2>
+        <div class="rh-accordion" id="uma-accordion">
+          <button class="rh-accordion-btn" aria-expanded="false" aria-controls="uma-body">
+            <span>About</span>
+            <span class="chevron" aria-hidden="true"></span>
+          </button>
+          <div class="rh-accordion-body" id="uma-body" role="region">
+            <div class="rh-accordion-inner">
+              <!-- ════════════════════════════════════════════════════════
+                   DESCRIPTION — edit the text between the <p> tags
+                   ════════════════════════════════════════════════════════ -->
+              <p>[ADD YOUR UM::AUTONOMY DESCRIPTION HERE.]</p>
+              <p>[ADD MORE DETAILS HERE.]</p>
+              <!-- ═══════════════════════════════════════════════════════ -->
+              <div class="tag-row">
+                <span class="tag">Autonomy</span>
+                <span class="tag">Navigation</span>
+                <span class="tag">C++</span>
+                <span class="tag">ROS</span>
+                <!-- Add more tags here -->
+              </div>
+            </div>
+          </div>
+        </div><!-- /uma-accordion -->
+      </div><!-- /proj-info -->
+    </div>
+    <!-- ══ END UM::AUTONOMY ══════════════════════════════════════════════════════ -->
+
+    <!-- ══════════════════════════════════════════════════════════════════════
+         TEAM CAPTAIN & PROGRAMMING LEAD — TEAM 245 FIRST FRC ROBOTICS
+         ══════════════════════════════════════════════════════════════════════ -->
+    <div class="proj-section" id="frc-robotics">
+      <div class="proj-image">
+        <img src="Robotics.jpg" alt="Team 245 FRC Robotics" />  <!-- ← REPLACE -->
+      </div>
+      <div class="proj-info">
+        <h2 class="proj-title">Team Captain &amp; Programming Lead<br><span style="font-size:0.7em;font-weight:600;color:var(--accent)">Team 245 FIRST FRC Robotics</span></h2>
+        <div class="rh-accordion" id="frc-accordion">
+          <button class="rh-accordion-btn" aria-expanded="false" aria-controls="frc-body">
+            <span>About</span>
+            <span class="chevron" aria-hidden="true"></span>
+          </button>
+          <div class="rh-accordion-body" id="frc-body" role="region">
+            <div class="rh-accordion-inner">
+              <!-- ════════════════════════════════════════════════════════
+                   DESCRIPTION — edit the text between the <p> tags
+                   ════════════════════════════════════════════════════════ -->
+              <p>[ADD YOUR FRC ROBOTICS DESCRIPTION HERE.]</p>
+              <p>[ADD MORE DETAILS HERE.]</p>
+              <!-- ═══════════════════════════════════════════════════════ -->
+              <div class="tag-row">
+                <span class="tag">Leadership</span>
+                <span class="tag">Java</span>
+                <span class="tag">FRC</span>
+                <span class="tag">Robotics</span>
+                <!-- Add more tags here -->
+              </div>
+            </div>
+          </div>
+        </div><!-- /frc-accordion -->
+      </div><!-- /proj-info -->
+    </div>
+    <!-- ══ END FRC ROBOTICS ════════════════════════════════════════════════════════ -->
+
+    <!-- ══════════════════════════════════════════════════════════════════════════════
+         CO-FOUNDED PING PONG CLUB
+         ══════════════════════════════════════════════════════════════════════════════ -->
+    <div class="proj-section" id="pp-club">
+      <div class="proj-image">
+        <img src="PingClub.jpg" alt="Ping Pong Club" />  <!-- ← REPLACE -->
+      </div>
+      <div class="proj-info">
+        <h2 class="proj-title">Co-Founded<br><span style="font-size:0.7em;font-weight:600;color:var(--accent)">Ping Pong Club</span></h2>
+        <div class="rh-accordion" id="ppc-accordion">
+          <button class="rh-accordion-btn" aria-expanded="false" aria-controls="ppc-body">
+            <span>About</span>
+            <span class="chevron" aria-hidden="true"></span>
+          </button>
+          <div class="rh-accordion-body" id="ppc-body" role="region">
+            <div class="rh-accordion-inner">
+              <!-- ════════════════════════════════════════════════════════
+                   DESCRIPTION — edit the text between the <p> tags
+                   ════════════════════════════════════════════════════════ -->
+              <p>[ADD YOUR PING PONG CLUB DESCRIPTION HERE.]</p>
+              <p>[ADD MORE DETAILS HERE.]</p>
+              <!-- ═══════════════════════════════════════════════════════ -->
+              <div class="tag-row">
+                <span class="tag">Leadership</span>
+                <span class="tag">Community</span>
+                <span class="tag">Co-Founder</span>
+                <!-- Add more tags here -->
+              </div>
+            </div>
+          </div>
+        </div><!-- /ppc-accordion -->
+      </div><!-- /proj-info -->
+    </div>
+    <!-- ══ END PING PONG CLUB ════════════════════════════════════════════════════ -->
+
+  </div><!-- /work-inner -->
+  </div><!-- /work-body -->
+  <!-- ══ END WORK & LEADERSHIP DROPDOWN ══════════════════════════════════ -->
+
+  <!-- ── Work header (click to expand/collapse) ──────────────────────────── -->
+  <div class="section-header" id="work2" role="button" aria-expanded="false" aria-controls="work2-body" tabindex="0">
+    <h2>Work<span></span></h2>
+    <span class="sh-chevron" aria-hidden="true"></span>
+  </div>
+
+  <div id="work2-body" role="region">
+  <div id="work2-inner">
+
+    <!-- ══════════════════════════════════════════════════════════════════════
+         EVENT PARTNER — MOONPRENEUR
+         ══════════════════════════════════════════════════════════════════════ -->
+    <div class="proj-section" id="work-moonpreneur">
+      <div class="proj-image">
+        <img src="Moonprenuer.jpg" alt="Moonpreneur" />  <!-- ← REPLACE -->
+      </div>
+      <div class="proj-info">
+        <h2 class="proj-title">Event Partner<br><span style="font-size:0.7em;font-weight:600;color:var(--accent)">Moonpreneur</span></h2>
+        <div class="rh-accordion" id="wmoon-accordion">
+          <button class="rh-accordion-btn" aria-expanded="false" aria-controls="wmoon-body">
+            <span>About</span>
+            <span class="chevron" aria-hidden="true"></span>
+          </button>
+          <div class="rh-accordion-body" id="wmoon-body" role="region">
+            <div class="rh-accordion-inner">
+              <!-- ════════════════════════════════════════════════════════
+                   DESCRIPTION — edit the text between the <p> tags
+                   ════════════════════════════════════════════════════════ -->
+              <p>[ADD YOUR MOONPRENEUR WORK DESCRIPTION HERE.]</p>
+              <p>[ADD MORE DETAILS HERE.]</p>
+              <!-- ═══════════════════════════════════════════════════════ -->
+              <div class="tag-row">
+                <span class="tag">Events</span>
+                <span class="tag">Entrepreneurship</span>
+                <span class="tag">STEM Education</span>
+                <!-- Add more tags here -->
+              </div>
+            </div>
+          </div>
+        </div><!-- /wmoon-accordion -->
+      </div><!-- /proj-info -->
+    </div>
+    <!-- ══ END EVENT PARTNER MOONPRENEUR ══════════════════════════════════════════ -->
+
+    <!-- ══════════════════════════════════════════════════════════════════════
+         TUTOR — MATH CORPS
+         ══════════════════════════════════════════════════════════════════════ -->
+    <div class="proj-section" id="math-corps">
+      <div class="proj-image">
+        <img src="MathCorps.jpg" alt="Math Corps" />  <!-- ← REPLACE -->
+      </div>
+      <div class="proj-info">
+        <h2 class="proj-title">Tutor<br><span style="font-size:0.7em;font-weight:600;color:var(--accent)">Math Corps</span></h2>
+        <div class="rh-accordion" id="mc-accordion">
+          <button class="rh-accordion-btn" aria-expanded="false" aria-controls="mc-body">
+            <span>About</span>
+            <span class="chevron" aria-hidden="true"></span>
+          </button>
+          <div class="rh-accordion-body" id="mc-body" role="region">
+            <div class="rh-accordion-inner">
+              <!-- ════════════════════════════════════════════════════════
+                   DESCRIPTION — edit the text between the <p> tags
+                   ════════════════════════════════════════════════════════ -->
+              <p>[ADD YOUR MATH CORPS DESCRIPTION HERE.]</p>
+              <p>[ADD MORE DETAILS HERE.]</p>
+              <!-- ═══════════════════════════════════════════════════════ -->
+              <div class="tag-row">
+                <span class="tag">Tutoring</span>
+                <span class="tag">Mathematics</span>
+                <span class="tag">Education</span>
+                <!-- Add more tags here -->
+              </div>
+            </div>
+          </div>
+        </div><!-- /mc-accordion -->
+      </div><!-- /proj-info -->
+    </div>
+    <!-- ══ END TUTOR MATH CORPS ════════════════════════════════════════════════════════ -->
+
+  </div><!-- /work2-inner -->
+  </div><!-- /work2-body -->
+  <!-- ══ END WORK DROPDOWN ════════════════════════════════════════════════ -->
+
+  <!-- ── Education header (click to expand/collapse) ──────────────────── -->
+  <div class="section-header" id="education" role="button" aria-expanded="false" aria-controls="education-body" tabindex="0">
+    <h2>Education<span></span></h2>
+    <span class="sh-chevron" aria-hidden="true"></span>
+  </div>
+
+  <div id="education-body" role="region">
+  <div id="education-inner">
+
+    <div class="edu-inner-wrap">
+      <div class="edu-card">
+
+        <!-- ── School logo: replace Umich.jpg with your logo file ── -->
+        <div class="edu-logo">
+          <img src="Umich.jpg" alt="University of Michigan" />
+        </div>
+
+        <!-- ── Details ──────────────────────────────────────────────── -->
+        <div class="edu-details">
+
+          <div class="edu-school">University of Michigan &mdash; Ann Arbor</div>
+          <div class="edu-degree">Bachelor of Science in Engineering &middot; Computer Engineering</div>
+
+          <div class="edu-meta">
+            <span class="edu-badge">Expected May 2028</span>
+            <span class="edu-badge edu-badge-gpa">GPA&nbsp;4.00</span>
+            <span class="edu-badge edu-badge-minor">Minor in Entrepreneurship</span>
+          </div>
+
+          <div class="edu-divider"></div>
+
+          <span class="edu-cw-label">Relevant Coursework</span>
+          <div class="tag-row">
+            <span class="tag">Data Structures &amp; Algorithms</span>
+            <span class="tag">Differential Equations</span>
+            <span class="tag">Multivariable Calculus</span>
+          </div>
+
+        </div><!-- /edu-details -->
+      </div><!-- /edu-card -->
+    </div><!-- /edu-inner-wrap -->
+
+  </div><!-- /education-inner -->
+  </div><!-- /education-body -->
+  <!-- ══ END EDUCATION DROPDOWN ══════════════════════════════════════════ -->
+
+  <!-- ── Certificates header (click to expand/collapse) ──────────────── -->
+  <div class="section-header" id="certs" role="button" aria-expanded="false" aria-controls="certs-body" tabindex="0">
+    <h2>Certificates<span></span></h2>
+    <span class="sh-chevron" aria-hidden="true"></span>
+  </div>
+
+  <div id="certs-body" role="region">
+  <div id="certs-inner">
+
+    <!-- ══════════════════════════════════════════════════════════════════════
+         CERTIFICATE 1 — HarvardX CS50
+         ══════════════════════════════════════════════════════════════════════ -->
+    <div class="proj-section proj-section--cert" id="cert-1">
+
+      <!-- ── Certificate image: replace CS50_Cert.jpg with your file ── -->
+      <div class="proj-image">
+        <img src="CS50.png" alt="HarvardX CS50 Certificate" />  <!-- ← REPLACE -->
+      </div>
+
+      <div class="proj-info">
+        <h2 class="proj-title">CS50: Introduction to Computer Science <span style="font-size:0.65em;font-weight:600;color:var(--text-muted)">(175 hrs)</span><br>
+          <span style="font-size:0.7em;font-weight:600;color:var(--accent)">HarvardX</span>
+        </h2>
+
+        <div class="rh-accordion" id="cert1-accordion">
+          <button class="rh-accordion-btn" aria-expanded="false" aria-controls="cert1-body">
+            <span>What I Learned</span>
+            <span class="chevron" aria-hidden="true"></span>
+          </button>
+          <div class="rh-accordion-body" id="cert1-body" role="region">
+            <div class="rh-accordion-inner">
+              <!-- ════════════════════════════════════════════════════════
+                   DESCRIPTION — edit the text between the <p> tags below
+                   ════════════════════════════════════════════════════════ -->
+              <p>[ADD YOUR CS50 DESCRIPTION HERE.]</p>
+              <p>[ADD MORE DETAILS HERE.]</p>
+              <!-- ═══════════════════════════════════════════════════════ -->
+              <div class="tag-row">
+                <span class="tag">C</span>
+                <span class="tag">Python</span>
+                <span class="tag">SQL</span>
+                <span class="tag">Algorithms</span>
+                <span class="tag">Web Development</span>
+                <!-- Add more tags here -->
+              </div>
+            </div>
+          </div>
+        </div><!-- /cert1-accordion -->
+      </div><!-- /proj-info -->
+
+    </div>
+    <!-- ══ END CERTIFICATE 1 ══════════════════════════════════════════════ -->
+
+    <!-- ══════════════════════════════════════════════════════════════════════
+         CERTIFICATE 2 — Inspirit AI
+         ══════════════════════════════════════════════════════════════════════ -->
+    <div class="proj-section proj-section--cert" id="cert-2">
+
+      <!-- ── Certificate image: replace InspiritAI_Cert.jpg with your file ── -->
+      <div class="proj-image">
+        <img src="InspiritAI.png" alt="Inspirit AI Certificate" />  <!-- ← REPLACE -->
+      </div>
+
+      <div class="proj-info">
+        <h2 class="proj-title">AI Scholars Program <span style="font-size:0.65em;font-weight:600;color:var(--text-muted)">(180 hrs)</span><br>
+          <span style="font-size:0.7em;font-weight:600;color:var(--accent)">Inspirit AI</span>
+        </h2>
+
+        <div class="rh-accordion" id="cert2-accordion">
+          <button class="rh-accordion-btn" aria-expanded="false" aria-controls="cert2-body">
+            <span>What I Learned</span>
+            <span class="chevron" aria-hidden="true"></span>
+          </button>
+          <div class="rh-accordion-body" id="cert2-body" role="region">
+            <div class="rh-accordion-inner">
+              <!-- ════════════════════════════════════════════════════════
+                   DESCRIPTION — edit the text between the <p> tags below
+                   ════════════════════════════════════════════════════════ -->
+              <p>[ADD YOUR INSPIRIT AI DESCRIPTION HERE.]</p>
+              <p>[ADD MORE DETAILS HERE.]</p>
+              <!-- ═══════════════════════════════════════════════════════ -->
+              <div class="tag-row">
+                <span class="tag">Machine Learning</span>
+                <span class="tag">Neural Networks</span>
+                <span class="tag">Python</span>
+                <span class="tag">AI Ethics</span>
+                <!-- Add more tags here -->
+              </div>
+            </div>
+          </div>
+        </div><!-- /cert2-accordion -->
+      </div><!-- /proj-info -->
+
+    </div>
+    <!-- ══ END CERTIFICATE 2 ══════════════════════════════════════════════ -->
+
+    <!-- ══════════════════════════════════════════════════════════════════════
+         CERTIFICATE 3 — Python for Everybody
+         ══════════════════════════════════════════════════════════════════════ -->
+    <div class="proj-section proj-section--cert" id="cert-3">
+
+      <!-- ── Certificate image: replace PY4E_Cert.jpg with your file ── -->
+      <div class="proj-image">
+        <img src="Python For Everybody.jpg" alt="Python for Everybody Certificate" />  <!-- ← REPLACE -->
+      </div>
+
+      <div class="proj-info">
+        <h2 class="proj-title">Python for Everybody Specialization <span style="font-size:0.65em;font-weight:600;color:var(--text-muted)">(75 hrs)</span><br>
+          <span style="font-size:0.7em;font-weight:600;color:var(--accent)">Coursera &mdash; University of Michigan</span>
+        </h2>
+
+        <div class="rh-accordion" id="cert3-accordion">
+          <button class="rh-accordion-btn" aria-expanded="false" aria-controls="cert3-body">
+            <span>What I Learned</span>
+            <span class="chevron" aria-hidden="true"></span>
+          </button>
+          <div class="rh-accordion-body" id="cert3-body" role="region">
+            <div class="rh-accordion-inner">
+              <!-- ════════════════════════════════════════════════════════
+                   DESCRIPTION — edit the text between the <p> tags below
+                   ════════════════════════════════════════════════════════ -->
+              <p>[ADD YOUR PYTHON FOR EVERYBODY DESCRIPTION HERE.]</p>
+              <p>[ADD MORE DETAILS HERE.]</p>
+              <!-- ═══════════════════════════════════════════════════════ -->
+              <div class="tag-row">
+                <span class="tag">Python</span>
+                <span class="tag">Data Structures</span>
+                <span class="tag">Web Scraping</span>
+                <span class="tag">Databases</span>
+                <span class="tag">APIs</span>
+                <!-- Add more tags here -->
+              </div>
+            </div>
+          </div>
+        </div><!-- /cert3-accordion -->
+      </div><!-- /proj-info -->
+
+    </div>
+    <!-- ══ END CERTIFICATE 3 ══════════════════════════════════════════════ -->
+
+  </div><!-- /certs-inner -->
+  </div><!-- /certs-body -->
+  <!-- ══ END CERTIFICATES DROPDOWN ══════════════════════════════════════ -->
+
+  <!-- ── Contact ──────────────────────────────────────────────────────── -->
+  <section class="contact-section" id="contact">
+
+    <h2 class="contact-heading">Contact</span></h2>
+
+    <div class="contact-links">
+
+      <a class="contact-card contact-card--primary" href="mailto:aarush.gota@gmail.com">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        aarush.gota@gmail.com
+      </a>
+
+      <a class="contact-card" href="mailto:gota@umich.edu">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        gota@umich.edu
+      </a>
+
+      <!-- replace YOUR_LINKEDIN with your profile slug -->
+      <a class="contact-card" href="https://www.linkedin.com/in/aarush-gota/" target="_blank" rel="noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+        LinkedIn
+      </a>
+
+      <!-- replace YOUR_GITHUB with your username -->
+      <a class="contact-card" href="https://github.com/gota000" target="_blank" rel="noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.3c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+        GitHub
+      </a>
+
+    </div>
+
+    <div class="contact-divider"></div>
+    <p class="contact-footer">&copy; 2026 Aarush Gota</p>
+
   </section>
 
 
   <script>
-    /* ─── Projects section toggle ────────────────────────────────────── */
-    const projHeader = document.getElementById('projects');
-    const projBody   = document.getElementById('projects-body');
+    /* ─── Section header toggles — auto-wires all .section-header elements ── */
+    document.querySelectorAll('.section-header').forEach(header => {
+      const bodyId = header.getAttribute('aria-controls');
+      const body   = document.getElementById(bodyId);
+      if (!body) return;
 
-    function toggleProjects () {
-      const isOpen = projHeader.classList.toggle('open');
-      projBody.classList.toggle('open', isOpen);
-      projHeader.setAttribute('aria-expanded', isOpen);
-    }
+      let isOpen = false;
 
-    projHeader.addEventListener('click', toggleProjects);
-    projHeader.addEventListener('keydown', e => {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleProjects(); }
+      function openSection () {
+        isOpen = true;
+        header.classList.add('open');
+        header.setAttribute('aria-expanded', 'true');
+        /* Measure full content height and animate to it */
+        body.style.height = body.scrollHeight + 'px';
+        /* After transition ends, switch to auto so content can grow (e.g. accordion opens) */
+        body.addEventListener('transitionend', function onEnd () {
+          body.removeEventListener('transitionend', onEnd);
+          if (isOpen) body.style.height = 'auto';
+        });
+      }
+
+      function closeSection () {
+        isOpen = false;
+        header.classList.remove('open');
+        header.setAttribute('aria-expanded', 'false');
+        /* Freeze current height first so CSS transition has a from-value */
+        body.style.height = body.offsetHeight + 'px';
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => { body.style.height = '0'; });
+        });
+      }
+
+      function toggle () {
+        isOpen ? closeSection() : openSection();
+      }
+
+      header.addEventListener('click', toggle);
+      header.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+      });
     });
 
     /* ─── Accordions — handles all .rh-accordion instances ─────────────── */
