@@ -336,17 +336,16 @@
       width: 100%;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      padding: 1.1rem 1.5rem;
+      padding: 0.9rem 1.5rem;
       background: none;
       border: none;
       color: var(--text-main);
-      cursor: pointer;
       font-size: 1rem;
       font-weight: 600;
       font-family: var(--font);
       letter-spacing: 0.02em;
-      transition: background 0.2s;
+      cursor: default;
+      pointer-events: none;
     }
 
     .rh-accordion-btn:hover {
@@ -369,29 +368,16 @@
     }
 
     .rh-accordion-body {
-      max-height: 0;
-      overflow-x: hidden;
-      overflow-y: hidden;
-      transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-        padding 0.4s ease;
-    }
-
-    .rh-accordion.open .rh-accordion-body {
       max-height: 220px;
-      /* keep your current behavior */
+      overflow-x: hidden;
       overflow-y: auto;
-      padding-bottom: 1.25rem;
-      /* ✅ ensures last line isn't flush/cut */
-      box-sizing: border-box;
       padding-bottom: calc(3rem + 8px);
-    }
-
-    .rh-accordion.open .rh-accordion-body {
+      box-sizing: border-box;
       -webkit-overflow-scrolling: touch;
     }
 
     .rh-accordion-inner {
-      padding: 0 1.5rem 1.5rem;
+      padding: 0 1.5rem 0.6rem;
       color: var(--text-muted);
       font-size: 0.95rem;
       line-height: 1.8;
@@ -1121,10 +1107,7 @@
           <h2 class="proj-title">Robotic Hand</h2>
 
           <div class="rh-accordion" id="rh-accordion">
-            <button class="rh-accordion-btn" aria-expanded="false" aria-controls="rh-body">
-              <span>About</span>
-              <span class="chevron" aria-hidden="true"></span>
-            </button>
+            <div class="rh-accordion-btn"><span>About</span></div>
             <div class="rh-accordion-body" id="rh-body" role="region">
               <div class="rh-accordion-inner">
                 <!-- ════════════════════════════════════════════════════════
@@ -1163,10 +1146,7 @@
           <h2 class="proj-title">Ping Pong Robot</h2>
 
           <div class="rh-accordion" id="pp-accordion">
-            <button class="rh-accordion-btn" aria-expanded="false" aria-controls="pp-body">
-              <span>About</span>
-              <span class="chevron" aria-hidden="true"></span>
-            </button>
+            <div class="rh-accordion-btn"><span>About</span></div>
             <div class="rh-accordion-body" id="pp-body" role="region">
               <div class="rh-accordion-inner">
                 <!-- ════════════════════════════════════════════════════════
@@ -1197,10 +1177,7 @@
           <h2 class="proj-title">Chemotherapy Care Retainer</h2>
 
           <div class="rh-accordion" id="chemo-accordion">
-            <button class="rh-accordion-btn" aria-expanded="false" aria-controls="chemo-body">
-              <span>About</span>
-              <span class="chevron" aria-hidden="true"></span>
-            </button>
+            <div class="rh-accordion-btn"><span>About</span></div>
             <div class="rh-accordion-body" id="chemo-body" role="region">
               <div class="rh-accordion-inner">
                 <!-- ════════════════════════════════════════════════════════
@@ -1241,10 +1218,7 @@
           <h2 class="proj-title">Navigation &amp; Controls Programming Lead<br><span
               style="font-size:0.7em;font-weight:600;color:var(--accent)">UM::Autonomy</span></h2>
           <div class="rh-accordion" id="uma-accordion">
-            <button class="rh-accordion-btn" aria-expanded="false" aria-controls="uma-body">
-              <span>About</span>
-              <span class="chevron" aria-hidden="true"></span>
-            </button>
+            <div class="rh-accordion-btn"><span>About</span></div>
             <div class="rh-accordion-body" id="uma-body" role="region">
               <div class="rh-accordion-inner">
                 <!-- ════════════════════════════════════════════════════════
@@ -1269,10 +1243,7 @@
           <h2 class="proj-title">Team Captain &amp; Programming Lead<br><span
               style="font-size:0.7em;font-weight:600;color:var(--accent)">Team 245 FIRST FRC Robotics</span></h2>
           <div class="rh-accordion" id="frc-accordion">
-            <button class="rh-accordion-btn" aria-expanded="false" aria-controls="frc-body">
-              <span>About</span>
-              <span class="chevron" aria-hidden="true"></span>
-            </button>
+            <div class="rh-accordion-btn"><span>About</span></div>
             <div class="rh-accordion-body" id="frc-body" role="region">
               <div class="rh-accordion-inner">
                 <!-- ════════════════════════════════════════════════════════
@@ -1297,10 +1268,7 @@
           <h2 class="proj-title">Co-Founded<br><span style="font-size:0.7em;font-weight:600;color:var(--accent)">Ping
               Pong Club</span></h2>
           <div class="rh-accordion" id="ppc-accordion">
-            <button class="rh-accordion-btn" aria-expanded="false" aria-controls="ppc-body">
-              <span>About</span>
-              <span class="chevron" aria-hidden="true"></span>
-            </button>
+            <div class="rh-accordion-btn"><span>About</span></div>
             <div class="rh-accordion-body" id="ppc-body" role="region">
               <div class="rh-accordion-inner">
                 <!-- ════════════════════════════════════════════════════════
@@ -1338,10 +1306,7 @@
           <h2 class="proj-title">Event Partner<br><span
               style="font-size:0.7em;font-weight:600;color:var(--accent)">Moonpreneur</span></h2>
           <div class="rh-accordion" id="wmoon-accordion">
-            <button class="rh-accordion-btn" aria-expanded="false" aria-controls="wmoon-body">
-              <span>About</span>
-              <span class="chevron" aria-hidden="true"></span>
-            </button>
+            <div class="rh-accordion-btn"><span>About</span></div>
             <div class="rh-accordion-body" id="wmoon-body" role="region">
               <div class="rh-accordion-inner">
                 <!-- ════════════════════════════════════════════════════════
@@ -1366,10 +1331,7 @@
           <h2 class="proj-title">Tutor<br><span style="font-size:0.7em;font-weight:600;color:var(--accent)">Math
               Corps</span></h2>
           <div class="rh-accordion" id="mc-accordion">
-            <button class="rh-accordion-btn" aria-expanded="false" aria-controls="mc-body">
-              <span>About</span>
-              <span class="chevron" aria-hidden="true"></span>
-            </button>
+            <div class="rh-accordion-btn"><span>About</span></div>
             <div class="rh-accordion-body" id="mc-body" role="region">
               <div class="rh-accordion-inner">
                 <!-- ════════════════════════════════════════════════════════
@@ -1460,10 +1422,7 @@
           </h2>
 
           <div class="rh-accordion" id="cert1-accordion">
-            <button class="rh-accordion-btn" aria-expanded="false" aria-controls="cert1-body">
-              <span>What I Learned</span>
-              <span class="chevron" aria-hidden="true"></span>
-            </button>
+            <div class="rh-accordion-btn"><span>What I Learned</span></div>
             <div class="rh-accordion-body" id="cert1-body" role="region">
               <div class="rh-accordion-inner">
                 <!-- ════════════════════════════════════════════════════════
@@ -1495,10 +1454,7 @@
           </h2>
 
           <div class="rh-accordion" id="cert2-accordion">
-            <button class="rh-accordion-btn" aria-expanded="false" aria-controls="cert2-body">
-              <span>What I Learned</span>
-              <span class="chevron" aria-hidden="true"></span>
-            </button>
+            <div class="rh-accordion-btn"><span>What I Learned</span></div>
             <div class="rh-accordion-body" id="cert2-body" role="region">
               <div class="rh-accordion-inner">
                 <!-- ════════════════════════════════════════════════════════
@@ -1531,10 +1487,7 @@
           </h2>
 
           <div class="rh-accordion" id="cert3-accordion">
-            <button class="rh-accordion-btn" aria-expanded="false" aria-controls="cert3-body">
-              <span>What I Learned</span>
-              <span class="chevron" aria-hidden="true"></span>
-            </button>
+            <div class="rh-accordion-btn"><span>What I Learned</span></div>
             <div class="rh-accordion-body" id="cert3-body" role="region">
               <div class="rh-accordion-inner">
                 <!-- ════════════════════════════════════════════════════════
@@ -1671,14 +1624,7 @@
       });
     });
 
-    /* ─── Accordions — handles all .rh-accordion instances ─────────────── */
-    document.querySelectorAll('.rh-accordion').forEach(accordion => {
-      const btn = accordion.querySelector('.rh-accordion-btn');
-      btn.addEventListener('click', () => {
-        const isOpen = accordion.classList.toggle('open');
-        btn.setAttribute('aria-expanded', isOpen);
-      });
-    });
+
 
     /* ─── Nav hide/show on scroll direction ─────────────────────────── */
     const nav = document.querySelector('nav');
