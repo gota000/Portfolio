@@ -286,13 +286,12 @@
 
     /* -- GIF background -------------------------------------------------- */
     #rh-bg-gif {
-      display: none;
-      /* ← CHANGE to "block" if using a gif */
+      display: block;
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
-      background-image: url('images/RobotHand.gif');
+      background-image: url('images/RobotHandTrimmed.gif');
       /* ← REPLACE with your gif filename */
       background-size: cover;
       background-position: center;
@@ -300,8 +299,7 @@
 
     /* -- VIDEO background (scroll-scrubbed) ------------------------------ */
     #rh-bg-video {
-      display: block;
-      /* ← CHANGE to "none" to use gif instead */
+      display: none;
       position: absolute;
       inset: 0;
       width: 100%;
@@ -1122,11 +1120,6 @@
             </div>
           </div><!-- /rh-accordion -->
 
-          <div class="rh-pass-hint">
-            <span class="rh-pass-arrow">&#8592;</span>
-            <span>Scroll on image to play</span>
-          </div>
-
         </div><!-- /rh-pass-panel -->
 
       </div><!-- /rh-scroll-container -->
@@ -1654,124 +1647,6 @@
         ticking = true;
       }
     }, { passive: true });
-    /* ─── Scroll-scrubbed video (wheel on left panel) ─────────────────── */
-    /*
-     * The left 2/3 (#rh-video-panel) intercepts wheel / touch events.
-     * Scrolling over it scrubs video frames; the page does NOT scroll.
-     * When the video reaches its start or end, wheel events escape so the
-     * page can scroll away normally.
-     *
-     * Scrolling over the right 1/3 (#rh-pass-panel) is never intercepted —
-     * the page scrolls straight past the section.
-     *
-     * WHEEL_SENSITIVITY: seconds of video advanced per pixel of scroll delta.
-     * Raise the value to scrub faster; lower it for a slower, deliberate feel.
-     */
-    const WHEEL_SENSITIVITY = 0.008;
-
-    const videoPanel = document.getElementById('rh-video-panel');
-    const video      = document.getElementById('rh-bg-video');
-    const isVideoMode = getComputedStyle(video).display !== 'none';
-
-    if (isVideoMode) {
-      video.pause();
-      video.currentTime = 0;
-
-      let targetTime = 0;
-      let rafPending  = false;
-      let unlocked    = false;
-
-      /*
-       * iOS Safari requires a play() call before currentTime seeks work,
-       * even on muted videos. We call play() then immediately pause() to
-       * "unlock" the video for programmatic seeking.
-       */
-      function unlockVideo() {
-        if (unlocked) return;
-        const p = video.play();
-        if (p !== undefined) {
-          p.then(() => {
-            unlocked = true;
-            video.pause();
-            applySeek();
-          }).catch(() => {});
-        } else {
-          unlocked = true;
-        }
-      }
-
-      unlockVideo();
-      document.addEventListener('touchstart', unlockVideo, { once: true, passive: true });
-      document.addEventListener('click',      unlockVideo, { once: true });
-
-      /* Runs once per animation frame — decoupled from input frequency */
-      function applySeek() {
-        rafPending = false;
-        if (video.readyState < 2) return;
-        if (video.fastSeek) {
-          video.fastSeek(targetTime);
-        } else {
-          video.currentTime = targetTime;
-        }
-      }
-
-      /* ── Mouse wheel / trackpad ──────────────────────────────────────── */
-      videoPanel.addEventListener('wheel', (e) => {
-        if (!video.duration) return;
-
-        /* Normalise across deltaMode (pixels / lines / pages) */
-        const raw = e.deltaMode === 1 ? e.deltaY * 16
-                  : e.deltaMode === 2 ? e.deltaY * window.innerHeight
-                  : e.deltaY;
-
-        /* At the video boundaries, release the scroll to the page */
-        if (raw < 0 && targetTime <= 0)              return;
-        if (raw > 0 && targetTime >= video.duration) return;
-
-        e.preventDefault();
-        targetTime = Math.max(0, Math.min(video.duration, targetTime + raw * WHEEL_SENSITIVITY));
-
-        if (!rafPending) {
-          rafPending = true;
-          requestAnimationFrame(applySeek);
-        }
-      }, { passive: false });
-
-      /* ── Touch scrubbing (mobile) ────────────────────────────────────── */
-      let lastTouchY = null;
-
-      videoPanel.addEventListener('touchstart', (e) => {
-        lastTouchY = e.touches[0].clientY;
-      }, { passive: true });
-
-      videoPanel.addEventListener('touchmove', (e) => {
-        if (!video.duration || lastTouchY === null) return;
-        const dy = lastTouchY - e.touches[0].clientY; /* positive = finger moving up = scroll down */
-        lastTouchY = e.touches[0].clientY;
-
-        if (dy < 0 && targetTime <= 0)              return;
-        if (dy > 0 && targetTime >= video.duration) return;
-
-        e.preventDefault();
-        targetTime = Math.max(0, Math.min(video.duration, targetTime + dy * WHEEL_SENSITIVITY));
-
-        if (!rafPending) {
-          rafPending = true;
-          requestAnimationFrame(applySeek);
-        }
-      }, { passive: false });
-
-      video.addEventListener('loadedmetadata', () => {
-        targetTime = 0;
-        video.currentTime = 0;
-      });
-
-      video.addEventListener('canplay', () => {
-        if (!rafPending) { rafPending = true; requestAnimationFrame(applySeek); }
-      });
-    }
-    /* If using a GIF, nothing extra needed — it displays as a static bg.
-       For frame-by-frame scroll, switch to an MP4 (see CSS comments).  */
   </script>
 
   <!-- ── Content loader: reads content.md and populates [data-content] elements ── -->
