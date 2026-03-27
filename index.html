@@ -578,6 +578,21 @@
       line-height: 1.2;
     }
 
+    .project-video-link {
+      display: inline-block;
+      margin-top: -0.6rem;
+      margin-bottom: 1.4rem;
+      color: var(--accent);
+      font-size: 0.92rem;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .project-video-link:hover {
+      color: var(--accent-dim);
+      text-decoration: underline;
+    }
+
     /* Accordion inside proj-info reuses .rh-accordion styles */
 
     /* Certificate cards — 2/3 viewport height, full image visible */
@@ -1103,6 +1118,8 @@
         <div id="rh-pass-panel">
 
           <h2 class="proj-title">Robotic Hand</h2>
+          <a class="project-video-link" data-video-link="robot-hand" href="#" target="_blank" rel="noopener noreferrer">Watch
+            Video</a>
 
           <div class="rh-accordion" id="rh-accordion">
             <div class="rh-accordion-btn"><span>About</span></div>
@@ -1137,6 +1154,8 @@
 
         <div class="proj-info">
           <h2 class="proj-title">Ping Pong Robot</h2>
+          <a class="project-video-link" data-video-link="ping-pong-robot" href="#" target="_blank" rel="noopener noreferrer">Watch
+            Video</a>
 
           <div class="rh-accordion" id="pp-accordion">
             <div class="rh-accordion-btn"><span>About</span></div>
@@ -1651,6 +1670,18 @@
 
   <!-- ── Content loader: reads content.md and populates [data-content] elements ── -->
   <script>
+    const robotHandLink = 'https://youtu.be/NUGp7QJhI9g';
+    const pingPongLink = 'https://youtu.be/24gmyie3OFY';
+
+    const videoLinks = {
+      'robot-hand': robotHandLink,
+      'ping-pong-robot': pingPongLink,
+    };
+
+    document.querySelectorAll('[data-video-link]').forEach(anchor => {
+      anchor.href = videoLinks[anchor.dataset.videoLink] || '#';
+    });
+
     (async () => {
       try {
         const res = await fetch('content.md');
