@@ -10,7 +10,7 @@ I am passionate about building hands-on engineering projects and motivated to so
 
 [robot-hand]
 ● Created a 15-DOF robotic hand with embedded potentiometers in each joint for closed-loop position feedback, achieving ±2° joint-angle error through PID-based control.
-● Imported the hand CAD into NVIDIA Isaac Sim, created a physics-accurate grasping environment with randomized object properties, and trained a reinforcement learning AI model, achieving ~80% grasp success in simulation.
+● Imported the hand CAD into NVIDIA Isaac Sim, created a physics-accurate environment, and am working on training a reinforcement learning AI model to flip an object and catch it.
 ● Delivered near real-time responsiveness by converting vision-processed MediaPipe hand-tracking outputs into joint targets and streaming commands to a Raspberry Pi Zero over TCP at 20 Hz with C++ and Python.
 
 [ping-pong-robot]
