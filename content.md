@@ -36,6 +36,11 @@ I am passionate about building hands-on engineering projects and motivated to so
 ●  Co-Founded a school Ping Pong Club (9th grade) to create a competitive, organized environment for students.
 ●  Ran weekly tournaments (prizes + pizza) and grew membership to 20+ active members through recruiting and club operations.
 
+[pivotal]
+●  Developed and integrated AprilTag perception for autonomous eVTOL landing, achieving stable 30 FPS detection, multi-tag support, and 3D pose estimation.
+●  Built AprilTag logging and offline video analysis, then validated Docker deployments through HIL testing.
+●  Evaluated radar-reflective materials for inflatable landing docks across multiple distances and angles.
+
 [moonpreneur]
 ●  Ran the company's promotional, free-robotics trials at conference centers across Michigan to expand company outreach. 
 ●  Ensured that the events ran smoothly, taught robotics to young children, and convinced parents to sign up for the company's paid program. 
