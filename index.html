@@ -309,28 +309,63 @@
      *   VIDEO (scroll-scrubbed) ← RECOMMENDED for frame-by-frame scroll
      *     1. Place your .mp4 in the same folder as index.html
      *     2. Set #rh-bg-video { display: block; } below
-     *     3. Set #rh-bg-gif   { display: none;  } below
+     *     3. Set #rh-bg-loop  { display: none;  } below
      *     4. Replace "YOUR_VIDEO_FILENAME.mp4" in the <video> tag in HTML
+     *        and change its preload="none" to preload="auto"
      *
-     *   GIF (static — GIFs cannot be frame-seeked by browsers)
-     *     1. Place your .gif in the same folder
-     *     2. Set #rh-bg-gif  { display: block; } below
-     *     3. Set #rh-bg-video { display: none;  } below
-     *     4. Replace "RobotHand.gif" in the url() below
-     *        The gif will display but won't scrub with scroll.
+     *   LOOP (autoplaying, like a GIF — but ~40x smaller)
+     *     Don't use a .gif directly: RobotHandTrimmed.gif is 77 MB.
+     *     Convert it to a muted .mp4 instead (this is how RobotHandLoop.mp4 was made):
+     *       ffmpeg -i in.gif -an -c:v libx264 -preset slower -crf 26 \
+     *         -pix_fmt yuv420p -movflags +faststart out.mp4
+     *       ffmpeg -i in.gif -frames:v 1 -q:v 5 poster.jpg
+     *     Then update src= and poster= on the #rh-bg-loop <video> tag in HTML.
     */
 
-    /* -- GIF background -------------------------------------------------- */
-    #rh-bg-gif {
+    /* -- LOOP background (GIF-style autoplay) ---------------------------- */
+    #rh-bg-loop {
       display: block;
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
-      background-image: url('images/RobotHandTrimmed.gif');
-      /* ← REPLACE with your gif filename */
-      background-size: cover;
-      background-position: center;
+      object-fit: cover;
+      object-position: center;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    #robot-hand:not(.is-loading) #rh-bg-loop {
+      opacity: 1;
+    }
+
+    /* -- Ghost box: shimmers until the loop video is ready to play -------- */
+    #robot-hand.is-loading {
+      background: #ece8f3;
+    }
+
+    #robot-hand.is-loading::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(100deg,
+          rgba(255, 255, 255, 0) 20%,
+          rgba(255, 255, 255, 0.65) 50%,
+          rgba(255, 255, 255, 0) 80%);
+      transform: translateX(-100%);
+      animation: rh-shimmer 1.4s ease-in-out infinite;
+    }
+
+    @keyframes rh-shimmer {
+      to { transform: translateX(100%); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      #robot-hand.is-loading::before {
+        animation: none;
+        transform: none;
+        background: rgba(255, 255, 255, 0.35);
+      }
     }
 
     /* -- VIDEO background (scroll-scrubbed) ------------------------------ */
@@ -1134,16 +1169,19 @@
 
         <!-- ── Left 2/3: scroll on this panel to scrub through video frames ─── -->
         <div id="rh-video-panel">
-          <section id="robot-hand">
+          <section id="robot-hand" class="is-loading" aria-busy="true">
 
-            <!-- ── GIF background ────────────────────────────────────────────── -->
-            <div id="rh-bg-gif"></div>
+            <!-- ── LOOP background (converted from RobotHandTrimmed.gif) ────────
+           The ghost box (.is-loading) stays up until this can play.
+      -->
+            <video id="rh-bg-loop" src="images/RobotHandLoop.mp4" poster="images/RobotHandPoster.jpg"
+              autoplay muted loop playsinline preload="auto" aria-hidden="true"></video>
 
             <!-- ── VIDEO background (scroll-scrubbed) ─────────────────────────
            Replace YOUR_VIDEO_FILENAME.mp4 with your actual file.
            Set display:block in CSS (#rh-bg-video) to activate.
       -->
-            <video id="rh-bg-video" muted playsinline preload="auto">
+            <video id="rh-bg-video" muted playsinline preload="none">
               <source src="images/RobotHand.mp4" type="video/mp4" />
             </video>
 
@@ -1652,6 +1690,32 @@
           btn.classList.remove('open');
           btn.setAttribute('aria-expanded', 'false');
         });
+      });
+    })();
+
+    /* ─── Robot hand loop — clear the ghost box once the video can play ── */
+    (function () {
+      const section = document.getElementById('robot-hand');
+      const video = document.getElementById('rh-bg-loop');
+      if (!section || !video) return;
+
+      function reveal() {
+        section.classList.remove('is-loading');
+        section.removeAttribute('aria-busy');
+      }
+
+      /* Already buffered (e.g. from cache) before this script ran */
+      if (video.readyState >= 3) { reveal(); return; }
+
+      video.addEventListener('canplay', reveal, { once: true });
+      video.addEventListener('playing', reveal, { once: true });
+      video.addEventListener('error', reveal, { once: true });
+
+      /* iOS Low Power Mode blocks autoplay — show the poster frame instead
+         of leaving the ghost box up forever */
+      const playAttempt = video.play();
+      if (playAttempt) playAttempt.catch(err => {
+        if (err.name === 'NotAllowedError') reveal();
       });
     })();
 
